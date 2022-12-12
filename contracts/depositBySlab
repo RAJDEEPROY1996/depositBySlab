@@ -1,0 +1,31 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+import "./Ownable.sol";
+
+interface IERC20 {
+    function transferFrom(address from,address to,uint256 amount) external returns (bool);
+}
+
+contract deposit is Ownable{
+    uint[5] public slab;
+    struct userDeposit{
+        uint balance;
+        uint level;
+    }
+    mapping(address => userDeposit) public depositAmount;
+
+    function setLevel(uint[5] calldata _amount) public onlyOwner{
+        for(uint i;i<5;i++){
+            slab[i] = _amount[i];
+        }
+    }
+//100,200,300,400,500
+    function depositByUser(uint _amount) public {
+        userDeposit memory user = depositAmount[msg.sender];
+        uint bal = user.balance;
+        uint level = user.level;
+        uint amountLeft = slab[level] - bal;
+        user.balance += _amount;         
+        if(amountLeft>=_amount){             
+            depositAmount[msg.sender] = user;            
+        }
