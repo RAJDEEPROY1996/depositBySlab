@@ -25,14 +25,14 @@ contract deposit is Ownable{
     }
 //slab[0] = 500; slab[1] = 400; slab[2] = 300 ....
 //slabTotal[0] = 500 ; slabTotal[1] = 900
-    function depositByUser(uint _amount) public {
+    function depositByUser(uint _amount) public returns(bool){
         userDeposit memory user = depositAmount[msg.sender];
         uint bal = user.balance;
         uint userSlab = user.level;
-
-        if(bal >= slabTotal[4]){
-            user.balance += _amount;
+        user.balance += _amount;
+        if(bal >= slabTotal[4]){            
             depositAmount[msg.sender] = user;
+            return true;
         }
         else{        
             uint total = slabTotal[userSlab];
@@ -40,16 +40,20 @@ contract deposit is Ownable{
             if(_amount > space){
                 _amount -= space;
                 while(_amount != 0){
-                    uint y = slab[userSlab+1]);
+                    uint y = slab[userSlab+1];
                     if(_amount > y){
                         _amount = _amount - y;
                         userSlab +=1;
                     }
                     else{
                         user.level = userSlab+1;
+                        depositAmount[msg.sender] = user;
+                        return true;
+
                     }
                 }
             }
         }
+    }
 
 }
