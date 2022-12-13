@@ -1,0 +1,3 @@
+In this smart contract, I only implemented the deposit function, so, if user deposit token then the token will get locked. 
+As per the question, there is no mention of deposit above 1500, so to overcome this situation, I have created one condition,
+if the deposit is greater than 1500 its level is set to 0 and deposit is possible.

@@ -1,0 +1,16 @@
+To use this application, user need to approve the ERC20 token in the ERC20 contract.
+ Approve function will take 2 parameter:
+        deposit Contract address, amount
+Once, the approval is given, user can deposit the token in the deposit contract.
+
+
+
+        owner of the contract need to set the slab:
+            slab 0 = 500
+            slab 1 = 400
+            slab 2 = 300
+            slab 3 = 200
+            slab 4 = 100
+
+once the user deposit, the amount got deposited in the deposit contract.
+User can check the deposit level by calling userDepositLevel function. It's a view function so there will be no gas fees required.

@@ -15,6 +15,7 @@ contract deposit is Ownable{
     }
     mapping(address => userDeposit) public depositAmount;
     address public ERC20;
+    event depositBYuser(address indexed depositor, uint indexed _amount);
     constructor(address _erc20){
         ERC20 = _erc20;
     }
@@ -33,15 +34,18 @@ contract deposit is Ownable{
         userDeposit memory user = depositAmount[msg.sender];
         uint bal = user.balance;
         uint userSlab = user.level;
+        uint total;
+        uint space;
         user.balance += _amount;
         IERC20(ERC20).transferFrom(msg.sender,address(this),_amount);
         if(bal + _amount >= slabTotal[4]){            
             depositAmount[msg.sender] = user;
+            emit depositBYuser(msg.sender,_amount);
             return true;
         }
         else{        
-            uint total = slabTotal[userSlab];
-            uint space = total - bal;
+            total = slabTotal[userSlab];
+            space = total - bal;
             if(_amount > space){
                 _amount -= space;
                 while(_amount != 0){
@@ -53,16 +57,21 @@ contract deposit is Ownable{
                     else{
                         user.level = userSlab+1;
                         depositAmount[msg.sender] = user;
+                        emit depositBYuser(msg.sender,_amount);
                         return true;
-
                     }
                 }
             }
             else{
                 depositAmount[msg.sender] = user;
+                emit depositBYuser(msg.sender,_amount);
                 return true;
             }
         }
+    }
+    
+    function userDepositLevel() public view returns(uint Level){
+        return depositAmount[msg.sender].level;
     }
 
 }

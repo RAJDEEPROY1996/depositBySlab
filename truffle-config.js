@@ -18,11 +18,16 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+ const HDWalletProvider = require('@truffle/hdwallet-provider');
+ const privateKey = "cc8bf997fdfa40e7a3b6464d8c2fbf68382aec0bdd6a4d02a33a9c6478b0284a";
+ const acc = "0xf5537a1b9bf7672f55cf12ef1abd3b072223e453"
 
+ const fs = require('fs');
+ //const mnemonic = fs.readFileSync(".secret").toString().trim();
+ //const { mnemonic, BSCSCANAPIKEY} = require('./env.json');
+//  const mnemonic = 'interest flush harvest clip inner claw settle party master scene tail cattle';
+ const BSCSCANAPIKEY ='VV3RAGBX3CSWDKN8EQQ9IIBKIT4ZC1ZI2C';
+ 
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -33,6 +38,12 @@ module.exports = {
    *
    * $ truffle test --network <network-name>
    */
+   plugins: [
+    'truffle-plugin-verify'
+  ],
+  api_keys: {
+    bscscan: BSCSCANAPIKEY,
+  },
 
   networks: {
     // Useful for testing. The `development` name is special - truffle uses it by default
@@ -46,6 +57,17 @@ module.exports = {
     //  port: 8545,            // Standard Ethereum port (default: none)
     //  network_id: "*",       // Any network (default: none)
     // },
+    ganache: {
+        host: "127.0.0.1",     // Localhost (default: none)
+        port: 8545,            // Standard ganache port 
+        network_id: "1663226824338",       // Any network (default: none)
+      },
+    
+      development: {
+        host: "127.0.0.1",     // Localhost (default: none)
+        port: 8545,            // Standard Ethereum port (default: none)
+        network_id: "*",       // Any network (default: none)
+      },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -55,6 +77,22 @@ module.exports = {
     // from: <address>,        // Account to send txs from (default: accounts[0])
     // websocket: true        // Enable EventEmitter interface for web3 (default: false)
     // },
+    bscTestnet: {
+      networkCheckTimeout: 999999,
+      provider: () => new HDWalletProvider(privateKey, `https://data-seed-prebsc-2-s1.binance.org:8545/`),
+      network_id: 97,
+      confirmations: 10,
+      timeoutBlocks: 200,
+      skipDryRun: true
+    },
+    MumbaiTestNet: {
+      networkCheckTimeout: 999999,
+      provider: () => new HDWalletProvider(privateKey, `https://rpc-mumbai.maticvigil.com/`),
+      network_id: 80001,
+      confirmations: 5,
+      timeoutBlocks: 4000000000,
+      skipDryRun: true
+    },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
     // ropsten: {
@@ -81,15 +119,15 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      // version: "0.5.1",    // Fetch exact version from solc-bin (default: truffle's version)
+       version: "0.8.7",    // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
+       settings: {          // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: false,
+          runs: 200
+        },
       //  evmVersion: "byzantium"
-      // }
+       }
     }
   },
 

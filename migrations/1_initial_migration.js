@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("Migrations");
+const deposit = artifacts.require("deposit");
 
 module.exports = function (deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(deposit,"0x14F8C555DC866D86dB5Cb5F6561707bBC5fBB873");
 };
