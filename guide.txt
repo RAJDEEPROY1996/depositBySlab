@@ -14,3 +14,7 @@ Once, the approval is given, user can deposit the token in the deposit contract.
 
 once the user deposit, the amount got deposited in the deposit contract.
 User can check the deposit level by calling userDepositLevel function. It's a view function so there will be no gas fees required.
+
+User Deposit contract =  https://testnet.bscscan.com/address/0x464EbD1A807Aaf8433bca7D70D6005AD91200BAD#code
+
+Yebelo ERC20 token = https://testnet.bscscan.com/address/0x14f8c555dc866d86db5cb5f6561707bbc5fbb873#code
