@@ -14,6 +14,10 @@ contract deposit is Ownable{
         uint level;
     }
     mapping(address => userDeposit) public depositAmount;
+    address public ERC20;
+    constructor(address _erc20){
+        ERC20 = _erc20;
+    }
 
     function setLevel(uint[5] calldata _amount) public onlyOwner{
         slab[0] = _amount[0];
@@ -30,7 +34,8 @@ contract deposit is Ownable{
         uint bal = user.balance;
         uint userSlab = user.level;
         user.balance += _amount;
-        if(bal >= slabTotal[4]){            
+        IERC20(ERC20).transferFrom(msg.sender,address(this),_amount);
+        if(bal + _amount >= slabTotal[4]){            
             depositAmount[msg.sender] = user;
             return true;
         }
