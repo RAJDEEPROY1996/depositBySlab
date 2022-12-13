@@ -53,6 +53,10 @@ contract deposit is Ownable{
                     }
                 }
             }
+            else{
+                depositAmount[msg.sender] = user;
+                return true;
+            }
         }
     }
 
