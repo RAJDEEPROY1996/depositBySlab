@@ -70,8 +70,8 @@ contract deposit is Ownable{
         }
     }
     
-    function userDepositLevel() public view returns(uint Level){
-        return depositAmount[msg.sender].level;
+    function userDepositLevel(address _acc) public view returns(uint Level){
+        return depositAmount[_acc].level;
     }
 
 }

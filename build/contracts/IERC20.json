@@ -31,7 +31,7 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.8.7+commit.e28d00a7\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/depositBySlab.sol\":\"IERC20\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Context.sol\":{\"keccak256\":\"0x2007e52ffb3ed0a9cd770676cdce6987ff52a77e6c422b9bffcfdfc4a84678b2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://308b082660169ee0f4d3c2d37779d1c46fabc7a109a5bfe0b6cddbf652338a41\",\"dweb:/ipfs/QmQRh5M8UK79g4fZ9EX1Yxps5ydJXTx9kbXe189kUadERk\"]},\"project:/contracts/Ownable.sol\":{\"keccak256\":\"0x1709057d982fa1b44ef71367f0010aedd73d5082c0ef93125f456599dd62eeb7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://21c5123dabdd3e98aa65be0421712d9a970d21dc29ac67c6e30814db65cb776d\",\"dweb:/ipfs/QmYLyQ9HgWceHsuDRMvf89ViUJ38kUShi9vSb7oA3xLMc2\"]},\"project:/contracts/depositBySlab.sol\":{\"keccak256\":\"0x653657684beaab37c3b45b97ab8ba09339c2e1c75e0d9c064032770ec32148fc\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://b09aa8eb55b7de5d19377690b3fc47c2932a68196b53ae4a6cde4c691b60ca6f\",\"dweb:/ipfs/QmWYJLiX2ZS2SmEZwB8xKJBhxaNpRxV4uPkYVHKBqkQwzL\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.7+commit.e28d00a7\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"from\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"to\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"transferFrom\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/depositBySlab.sol\":\"IERC20\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Context.sol\":{\"keccak256\":\"0x2007e52ffb3ed0a9cd770676cdce6987ff52a77e6c422b9bffcfdfc4a84678b2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://308b082660169ee0f4d3c2d37779d1c46fabc7a109a5bfe0b6cddbf652338a41\",\"dweb:/ipfs/QmQRh5M8UK79g4fZ9EX1Yxps5ydJXTx9kbXe189kUadERk\"]},\"project:/contracts/Ownable.sol\":{\"keccak256\":\"0x1709057d982fa1b44ef71367f0010aedd73d5082c0ef93125f456599dd62eeb7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://21c5123dabdd3e98aa65be0421712d9a970d21dc29ac67c6e30814db65cb776d\",\"dweb:/ipfs/QmYLyQ9HgWceHsuDRMvf89ViUJ38kUShi9vSb7oA3xLMc2\"]},\"project:/contracts/depositBySlab.sol\":{\"keccak256\":\"0x0655b7d70e7a10f13d92003e9ef96a247248ad2bf1481ba527288c798ce32559\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://efd74ee4437b6d2d29d50688c5273ef86109555fc8776db498267dde5483258a\",\"dweb:/ipfs/QmQjLam27vft2dKB9qZD6ZNsi1HeKfpRx2wBLgLSAhFX3X\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
@@ -39,7 +39,7 @@
   "deployedGeneratedSources": [],
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.7;\r\nimport \"./Ownable.sol\";\r\n\r\ninterface IERC20 {\r\n    function transferFrom(address from,address to,uint256 amount) external returns (bool);\r\n}\r\n\r\ncontract deposit is Ownable{\r\n    uint[5] public slab;\r\n    uint[5] public slabTotal;\r\n    struct userDeposit{\r\n        uint balance;\r\n        uint level;\r\n    }\r\n    mapping(address => userDeposit) public depositAmount;\r\n    address public ERC20;\r\n    event depositBYuser(address indexed depositor, uint indexed _amount);\r\n    constructor(address _erc20){\r\n        ERC20 = _erc20;\r\n    }\r\n\r\n    function setLevel(uint[5] calldata _amount) public onlyOwner{\r\n        slab[0] = _amount[0];\r\n        slabTotal[0] += _amount[0];\r\n        for(uint i=1;i<5;i++){\r\n            slab[i] = _amount[i];\r\n            slabTotal[i] =slabTotal[i-1] + _amount[i];\r\n        }\r\n    }\r\n//slab[0] = 500; slab[1] = 400; slab[2] = 300 ....\r\n//slabTotal[0] = 500 ; slabTotal[1] = 900\r\n    function depositByUser(uint _amount) public returns(bool){\r\n        userDeposit memory user = depositAmount[msg.sender];\r\n        uint bal = user.balance;\r\n        uint userSlab = user.level;\r\n        uint total;\r\n        uint space;\r\n        user.balance += _amount;\r\n        IERC20(ERC20).transferFrom(msg.sender,address(this),_amount);\r\n        if(bal + _amount >= slabTotal[4]){            \r\n            depositAmount[msg.sender] = user;\r\n            emit depositBYuser(msg.sender,_amount);\r\n            return true;\r\n        }\r\n        else{        \r\n            total = slabTotal[userSlab];\r\n            space = total - bal;\r\n            if(_amount > space){\r\n                _amount -= space;\r\n                while(_amount != 0){\r\n                    uint y = slab[userSlab+1];\r\n                    if(_amount > y){\r\n                        _amount = _amount - y;\r\n                        userSlab +=1;\r\n                    }\r\n                    else{\r\n                        user.level = userSlab+1;\r\n                        depositAmount[msg.sender] = user;\r\n                        emit depositBYuser(msg.sender,_amount);\r\n                        return true;\r\n                    }\r\n                }\r\n            }\r\n            else{\r\n                depositAmount[msg.sender] = user;\r\n                emit depositBYuser(msg.sender,_amount);\r\n                return true;\r\n            }\r\n        }\r\n    }\r\n    \r\n    function userDepositLevel() public view returns(uint Level){\r\n        return depositAmount[msg.sender].level;\r\n    }\r\n\r\n}",
+  "source": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.7;\r\nimport \"./Ownable.sol\";\r\n\r\ninterface IERC20 {\r\n    function transferFrom(address from,address to,uint256 amount) external returns (bool);\r\n}\r\n\r\ncontract deposit is Ownable{\r\n    uint[5] public slab;\r\n    uint[5] public slabTotal;\r\n    struct userDeposit{\r\n        uint balance;\r\n        uint level;\r\n    }\r\n    mapping(address => userDeposit) public depositAmount;\r\n    address public ERC20;\r\n    event depositBYuser(address indexed depositor, uint indexed _amount);\r\n    constructor(address _erc20){\r\n        ERC20 = _erc20;\r\n    }\r\n\r\n    function setLevel(uint[5] calldata _amount) public onlyOwner{\r\n        slab[0] = _amount[0];\r\n        slabTotal[0] += _amount[0];\r\n        for(uint i=1;i<5;i++){\r\n            slab[i] = _amount[i];\r\n            slabTotal[i] =slabTotal[i-1] + _amount[i];\r\n        }\r\n    }\r\n//slab[0] = 500; slab[1] = 400; slab[2] = 300 ....\r\n//slabTotal[0] = 500 ; slabTotal[1] = 900\r\n    function depositByUser(uint _amount) public returns(bool){\r\n        userDeposit memory user = depositAmount[msg.sender];\r\n        uint bal = user.balance;\r\n        uint userSlab = user.level;\r\n        uint total;\r\n        uint space;\r\n        user.balance += _amount;\r\n        IERC20(ERC20).transferFrom(msg.sender,address(this),_amount);\r\n        if(bal + _amount >= slabTotal[4]){            \r\n            depositAmount[msg.sender] = user;\r\n            emit depositBYuser(msg.sender,_amount);\r\n            return true;\r\n        }\r\n        else{        \r\n            total = slabTotal[userSlab];\r\n            space = total - bal;\r\n            if(_amount > space){\r\n                _amount -= space;\r\n                while(_amount != 0){\r\n                    uint y = slab[userSlab+1];\r\n                    if(_amount > y){\r\n                        _amount = _amount - y;\r\n                        userSlab +=1;\r\n                    }\r\n                    else{\r\n                        user.level = userSlab+1;\r\n                        depositAmount[msg.sender] = user;\r\n                        emit depositBYuser(msg.sender,_amount);\r\n                        return true;\r\n                    }\r\n                }\r\n            }\r\n            else{\r\n                depositAmount[msg.sender] = user;\r\n                emit depositBYuser(msg.sender,_amount);\r\n                return true;\r\n            }\r\n        }\r\n    }\r\n    \r\n    function userDepositLevel(address _acc) public view returns(uint Level){\r\n        return depositAmount[_acc].level;\r\n    }\r\n\r\n}",
   "sourcePath": "C:\\Users\\RAJDEEP\\Desktop\\JOB\\Freelance\\Intershala Assignment\\Yebelo\\contracts\\depositBySlab.sol",
   "ast": {
     "absolutePath": "project:/contracts/depositBySlab.sol",
@@ -54,10 +54,10 @@
         861
       ],
       "deposit": [
-        1244
+        1245
       ]
     },
-    "id": 1245,
+    "id": 1246,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -78,7 +78,7 @@
         "id": 956,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 1245,
+        "scope": 1246,
         "sourceUnit": 862,
         "src": "58:23:7",
         "symbolAliases": [],
@@ -238,7 +238,7 @@
             "visibility": "external"
           }
         ],
-        "scope": 1245,
+        "scope": 1246,
         "src": "85:113:7",
         "usedErrors": []
       },
@@ -261,9 +261,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 1244,
+        "id": 1245,
         "linearizedBaseContracts": [
-          1244,
+          1245,
           861,
           21
         ],
@@ -279,7 +279,7 @@
             "name": "slab",
             "nameLocation": "251:4:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "236:19:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -332,7 +332,7 @@
             "name": "slabTotal",
             "nameLocation": "277:9:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "262:24:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -439,7 +439,7 @@
             "name": "userDeposit",
             "nameLocation": "300:11:7",
             "nodeType": "StructDefinition",
-            "scope": 1244,
+            "scope": 1245,
             "src": "293:70:7",
             "visibility": "public"
           },
@@ -451,7 +451,7 @@
             "name": "depositAmount",
             "nameLocation": "408:13:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "369:52:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -505,7 +505,7 @@
             "name": "ERC20",
             "nameLocation": "443:5:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "428:20:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -697,7 +697,7 @@
               "parameters": [],
               "src": "557:0:7"
             },
-            "scope": 1244,
+            "scope": 1245,
             "src": "530:60:7",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1418,7 +1418,7 @@
               "parameters": [],
               "src": "658:0:7"
             },
-            "scope": 1244,
+            "scope": 1245,
             "src": "598:270:7",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1824,7 +1824,7 @@
                             "referencedDeclaration": 4294967268,
                             "src": "1292:4:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_deposit_$1244",
+                              "typeIdentifier": "t_contract$_deposit_$1245",
                               "typeString": "contract deposit"
                             }
                           }
@@ -1832,7 +1832,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_contract$_deposit_$1244",
+                              "typeIdentifier": "t_contract$_deposit_$1245",
                               "typeString": "contract deposit"
                             }
                           ],
@@ -3422,7 +3422,7 @@
               ],
               "src": "1020:6:7"
             },
-            "scope": 1244,
+            "scope": 1245,
             "src": "969:1419:7",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -3430,47 +3430,33 @@
           },
           {
             "body": {
-              "id": 1242,
+              "id": 1243,
               "nodeType": "Block",
-              "src": "2459:57:7",
+              "src": "2471:51:7",
               "statements": [
                 {
                   "expression": {
                     "expression": {
                       "baseExpression": {
-                        "id": 1236,
+                        "id": 1238,
                         "name": "depositAmount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 988,
-                        "src": "2477:13:7",
+                        "src": "2489:13:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userDeposit_$983_storage_$",
                           "typeString": "mapping(address => struct deposit.userDeposit storage ref)"
                         }
                       },
-                      "id": 1239,
+                      "id": 1240,
                       "indexExpression": {
-                        "expression": {
-                          "id": 1237,
-                          "name": "msg",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 4294967281,
-                          "src": "2491:3:7",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_magic_message",
-                            "typeString": "msg"
-                          }
-                        },
-                        "id": 1238,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "memberName": "sender",
-                        "nodeType": "MemberAccess",
-                        "src": "2491:10:7",
+                        "id": 1239,
+                        "name": "_acc",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1233,
+                        "src": "2503:4:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -3481,13 +3467,13 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "2477:25:7",
+                      "src": "2489:19:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_userDeposit_$983_storage",
                         "typeString": "struct deposit.userDeposit storage ref"
                       }
                     },
-                    "id": 1240,
+                    "id": 1241,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
@@ -3495,21 +3481,21 @@
                     "memberName": "level",
                     "nodeType": "MemberAccess",
                     "referencedDeclaration": 982,
-                    "src": "2477:31:7",
+                    "src": "2489:25:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1235,
-                  "id": 1241,
+                  "functionReturnParameters": 1237,
+                  "id": 1242,
                   "nodeType": "Return",
-                  "src": "2470:38:7"
+                  "src": "2482:32:7"
                 }
               ]
             },
-            "functionSelector": "4bf5aeac",
-            "id": 1243,
+            "functionSelector": "6a5193db",
+            "id": 1244,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -3517,24 +3503,53 @@
             "nameLocation": "2409:16:7",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1232,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "2425:2:7"
-            },
-            "returnParameters": {
-              "id": 1235,
+              "id": 1234,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1234,
+                  "id": 1233,
+                  "mutability": "mutable",
+                  "name": "_acc",
+                  "nameLocation": "2434:4:7",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1244,
+                  "src": "2426:12:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1232,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2426:7:7",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2425:14:7"
+            },
+            "returnParameters": {
+              "id": 1237,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1236,
                   "mutability": "mutable",
                   "name": "Level",
-                  "nameLocation": "2453:5:7",
+                  "nameLocation": "2465:5:7",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1243,
-                  "src": "2448:10:7",
+                  "scope": 1244,
+                  "src": "2460:10:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -3542,10 +3557,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1233,
+                    "id": 1235,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2448:4:7",
+                    "src": "2460:4:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -3554,21 +3569,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2447:12:7"
+              "src": "2459:12:7"
             },
-            "scope": 1244,
-            "src": "2400:116:7",
+            "scope": 1245,
+            "src": "2400:122:7",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 1245,
-        "src": "202:2319:7",
+        "scope": 1246,
+        "src": "202:2325:7",
         "usedErrors": []
       }
     ],
-    "src": "33:2488:7"
+    "src": "33:2494:7"
   },
   "legacyAST": {
     "absolutePath": "project:/contracts/depositBySlab.sol",
@@ -3583,10 +3598,10 @@
         861
       ],
       "deposit": [
-        1244
+        1245
       ]
     },
-    "id": 1245,
+    "id": 1246,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
@@ -3607,7 +3622,7 @@
         "id": 956,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 1245,
+        "scope": 1246,
         "sourceUnit": 862,
         "src": "58:23:7",
         "symbolAliases": [],
@@ -3767,7 +3782,7 @@
             "visibility": "external"
           }
         ],
-        "scope": 1245,
+        "scope": 1246,
         "src": "85:113:7",
         "usedErrors": []
       },
@@ -3790,9 +3805,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 1244,
+        "id": 1245,
         "linearizedBaseContracts": [
-          1244,
+          1245,
           861,
           21
         ],
@@ -3808,7 +3823,7 @@
             "name": "slab",
             "nameLocation": "251:4:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "236:19:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -3861,7 +3876,7 @@
             "name": "slabTotal",
             "nameLocation": "277:9:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "262:24:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -3968,7 +3983,7 @@
             "name": "userDeposit",
             "nameLocation": "300:11:7",
             "nodeType": "StructDefinition",
-            "scope": 1244,
+            "scope": 1245,
             "src": "293:70:7",
             "visibility": "public"
           },
@@ -3980,7 +3995,7 @@
             "name": "depositAmount",
             "nameLocation": "408:13:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "369:52:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -4034,7 +4049,7 @@
             "name": "ERC20",
             "nameLocation": "443:5:7",
             "nodeType": "VariableDeclaration",
-            "scope": 1244,
+            "scope": 1245,
             "src": "428:20:7",
             "stateVariable": true,
             "storageLocation": "default",
@@ -4226,7 +4241,7 @@
               "parameters": [],
               "src": "557:0:7"
             },
-            "scope": 1244,
+            "scope": 1245,
             "src": "530:60:7",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -4947,7 +4962,7 @@
               "parameters": [],
               "src": "658:0:7"
             },
-            "scope": 1244,
+            "scope": 1245,
             "src": "598:270:7",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -5353,7 +5368,7 @@
                             "referencedDeclaration": 4294967268,
                             "src": "1292:4:7",
                             "typeDescriptions": {
-                              "typeIdentifier": "t_contract$_deposit_$1244",
+                              "typeIdentifier": "t_contract$_deposit_$1245",
                               "typeString": "contract deposit"
                             }
                           }
@@ -5361,7 +5376,7 @@
                         "expression": {
                           "argumentTypes": [
                             {
-                              "typeIdentifier": "t_contract$_deposit_$1244",
+                              "typeIdentifier": "t_contract$_deposit_$1245",
                               "typeString": "contract deposit"
                             }
                           ],
@@ -6951,7 +6966,7 @@
               ],
               "src": "1020:6:7"
             },
-            "scope": 1244,
+            "scope": 1245,
             "src": "969:1419:7",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -6959,47 +6974,33 @@
           },
           {
             "body": {
-              "id": 1242,
+              "id": 1243,
               "nodeType": "Block",
-              "src": "2459:57:7",
+              "src": "2471:51:7",
               "statements": [
                 {
                   "expression": {
                     "expression": {
                       "baseExpression": {
-                        "id": 1236,
+                        "id": 1238,
                         "name": "depositAmount",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
                         "referencedDeclaration": 988,
-                        "src": "2477:13:7",
+                        "src": "2489:13:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_mapping$_t_address_$_t_struct$_userDeposit_$983_storage_$",
                           "typeString": "mapping(address => struct deposit.userDeposit storage ref)"
                         }
                       },
-                      "id": 1239,
+                      "id": 1240,
                       "indexExpression": {
-                        "expression": {
-                          "id": 1237,
-                          "name": "msg",
-                          "nodeType": "Identifier",
-                          "overloadedDeclarations": [],
-                          "referencedDeclaration": 4294967281,
-                          "src": "2491:3:7",
-                          "typeDescriptions": {
-                            "typeIdentifier": "t_magic_message",
-                            "typeString": "msg"
-                          }
-                        },
-                        "id": 1238,
-                        "isConstant": false,
-                        "isLValue": false,
-                        "isPure": false,
-                        "lValueRequested": false,
-                        "memberName": "sender",
-                        "nodeType": "MemberAccess",
-                        "src": "2491:10:7",
+                        "id": 1239,
+                        "name": "_acc",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 1233,
+                        "src": "2503:4:7",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address",
                           "typeString": "address"
@@ -7010,13 +7011,13 @@
                       "isPure": false,
                       "lValueRequested": false,
                       "nodeType": "IndexAccess",
-                      "src": "2477:25:7",
+                      "src": "2489:19:7",
                       "typeDescriptions": {
                         "typeIdentifier": "t_struct$_userDeposit_$983_storage",
                         "typeString": "struct deposit.userDeposit storage ref"
                       }
                     },
-                    "id": 1240,
+                    "id": 1241,
                     "isConstant": false,
                     "isLValue": true,
                     "isPure": false,
@@ -7024,21 +7025,21 @@
                     "memberName": "level",
                     "nodeType": "MemberAccess",
                     "referencedDeclaration": 982,
-                    "src": "2477:31:7",
+                    "src": "2489:25:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
                     }
                   },
-                  "functionReturnParameters": 1235,
-                  "id": 1241,
+                  "functionReturnParameters": 1237,
+                  "id": 1242,
                   "nodeType": "Return",
-                  "src": "2470:38:7"
+                  "src": "2482:32:7"
                 }
               ]
             },
-            "functionSelector": "4bf5aeac",
-            "id": 1243,
+            "functionSelector": "6a5193db",
+            "id": 1244,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
@@ -7046,24 +7047,53 @@
             "nameLocation": "2409:16:7",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 1232,
-              "nodeType": "ParameterList",
-              "parameters": [],
-              "src": "2425:2:7"
-            },
-            "returnParameters": {
-              "id": 1235,
+              "id": 1234,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 1234,
+                  "id": 1233,
+                  "mutability": "mutable",
+                  "name": "_acc",
+                  "nameLocation": "2434:4:7",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 1244,
+                  "src": "2426:12:7",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address",
+                    "typeString": "address"
+                  },
+                  "typeName": {
+                    "id": 1232,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "2426:7:7",
+                    "stateMutability": "nonpayable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address",
+                      "typeString": "address"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "2425:14:7"
+            },
+            "returnParameters": {
+              "id": 1237,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 1236,
                   "mutability": "mutable",
                   "name": "Level",
-                  "nameLocation": "2453:5:7",
+                  "nameLocation": "2465:5:7",
                   "nodeType": "VariableDeclaration",
-                  "scope": 1243,
-                  "src": "2448:10:7",
+                  "scope": 1244,
+                  "src": "2460:10:7",
                   "stateVariable": false,
                   "storageLocation": "default",
                   "typeDescriptions": {
@@ -7071,10 +7101,10 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 1233,
+                    "id": 1235,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
-                    "src": "2448:4:7",
+                    "src": "2460:4:7",
                     "typeDescriptions": {
                       "typeIdentifier": "t_uint256",
                       "typeString": "uint256"
@@ -7083,21 +7113,21 @@
                   "visibility": "internal"
                 }
               ],
-              "src": "2447:12:7"
+              "src": "2459:12:7"
             },
-            "scope": 1244,
-            "src": "2400:116:7",
+            "scope": 1245,
+            "src": "2400:122:7",
             "stateMutability": "view",
             "virtual": false,
             "visibility": "public"
           }
         ],
-        "scope": 1245,
-        "src": "202:2319:7",
+        "scope": 1246,
+        "src": "202:2325:7",
         "usedErrors": []
       }
     ],
-    "src": "33:2488:7"
+    "src": "33:2494:7"
   },
   "compiler": {
     "name": "solc",
@@ -7105,7 +7135,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-12-13T05:30:12.688Z",
+  "updatedAt": "2022-12-13T05:54:43.758Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},
